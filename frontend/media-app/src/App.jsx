@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import  {BrowerRouter as Router, Routes, Route, Navigate , useLocation} from 'react-router-dom'
+import  {Routes, Route, Navigate , useLocation} from 'react-router-dom'
 import Home from './Pages/Home'
 import Profile from './Pages/Profile'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
 import ResetPassword from './Pages/ResetPassword'
+import {useSelector} from "react-redux";
 
 
 function Layout(){
-        const user = null;
+        const user = useSelector((state) => state.user);
         const location = useLocation()
-
+       
         return user?.token? (
            <Outlet/>
         ):
@@ -21,10 +22,12 @@ function Layout(){
 
 
 function App() {
- 
+   
+    const {theme} = useSelector((state) => state.theme);
+
   return (
-    <div className="w-full min-h-[100vh]">
-       <Router>
+    <div data-theme={theme}  className="w-full min-h-[100vh]">
+       
          <Routes>
             <Route element = {<Layout/>}>
               <Route path="/" element={<Home/>}/>
@@ -35,7 +38,6 @@ function App() {
              <Route path = "/login" element={<Login/>}/>
              <Route path = "/reset-password" element = {<ResetPassword/>}/>
          </Routes>
-       </Router>
     </div>
   )
 }
