@@ -391,4 +391,4 @@ export const postComments = [
   },
 ];
 
-export default {friends, requests , suggest , posts}
+export default {friends, requests , suggest , posts , postComments}
