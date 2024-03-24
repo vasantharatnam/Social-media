@@ -115,6 +115,8 @@ export const friends = [
   },
 ];
 
+
+
 export const requests = [
   {
     _id: "64df3aec4180b81adfe41d32",
@@ -144,6 +146,7 @@ export const suggest = [
     ...friends[2],
   },
 ];
+
 export const posts = [
   {
     _id: "64e2fe620d7868ecff1a6a86",
@@ -387,3 +390,5 @@ export const postComments = [
     __v: 1,
   },
 ];
+
+export default {friends, requests , suggest}
