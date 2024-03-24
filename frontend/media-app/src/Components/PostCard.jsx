@@ -4,7 +4,9 @@ import img from '../assets/userprofile.png';
 import {Link} from 'react-router-dom';
 import  moment from 'moment';
 import {BiSolidLike} from 'react-icons/bi';
-import {BiLike} from 'react-icons/bi';
+import {BiLike , BiComment} from 'react-icons/bi';
+import {MdOutlineDeleteOutline} from 'react-icons/md'
+
 
 function PostCard({post , user , deletePost , likePost}) {
 
@@ -14,6 +16,10 @@ function PostCard({post , user , deletePost , likePost}) {
    const [loading , setLoading] = useState(false);
    const [replyComments , setReplyComments] = useState(0);
    const [showComments , setShowComments] = useState(1);
+
+   const getComments = async()=>{
+
+   }
 
   return (
     <div className = 'mb-2 bg-primary p-4 rounded-xl'>
@@ -72,8 +78,26 @@ function PostCard({post , user , deletePost , likePost}) {
           )}
           {post?.likes?.length} Likes
         </p>
+        <p
+          className='flex gap-2 items-center text-base cursor-pointer'
+          onClick={() => {
+            setShowComments(showComments === post._id ? null : post._id);
+            getComments(post?._id);
+          }}
+        >
+          <BiComment size={20} />
+          {post?.comments?.length} Comments
+        </p>
+         {user?._id === post?.userId?._id && (<div className='flex gap-1 items-center text-base text-ascent-1 cursor-pointer' onClick = {() => deletePost(post?._id)}> <MdOutlineDeleteOutline size = {20}/> <span>Delete</span></div>)}
+     </div>
 
-         </div>
+       {/* Comments */}
+
+       {showComments === post?._id && (
+        <div className = 'w-full mt-4 border-t border-[#66666645] pt-4'>
+             <CommentForm user = {user} id = {post?._id} getComments = {()=> getComments(post?._id)}/>
+        </div>
+       )}
     </div>
   )
 }
