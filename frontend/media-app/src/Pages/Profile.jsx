@@ -6,18 +6,18 @@ import PostCard from "../Components/PostCard";
 import ProfileCard from "../Components/ProfileCard";
 import TopBar from "../Components/Topbar";
 import Loading from "../Components/Loading";
-import {posts}from '../assets/data'
+import { posts } from '../assets/data'
 
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
- // const { posts } = useSelector((state) => state.posts);
+  // const { posts } = useSelector((state) => state.posts);
   const [userInfo, setUserInfo] = useState(user);
   const [loading, setLoading] = useState(false);
 
-  const handleDelete = () => {};
-  const handleLikePost = () => {};
+  const handleDelete = () => { };
+  const handleLikePost = () => { };
 
   return (
     <>

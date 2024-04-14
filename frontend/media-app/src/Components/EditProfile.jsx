@@ -23,7 +23,7 @@ const EditProfile = () => {
     defaultValues: { ...user },
   });
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => { };
 
   const handleClose = () => {
     dispatch(UpdateProfile(false));
@@ -125,11 +125,10 @@ const EditProfile = () => {
               {errMsg?.message && (
                 <span
                   role='alert'
-                  className={`text-sm ${
-                    errMsg?.status === "failed"
+                  className={`text-sm ${errMsg?.status === "failed"
                       ? "text-[#f64949fe]"
                       : "text-[#2ba150fe]"
-                  } mt-0.5`}
+                    } mt-0.5`}
                 >
                   {errMsg?.message}
                 </span>

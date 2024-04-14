@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import  img from "../assets/userprofile.png";
+import img from "../assets/userprofile.png";
 import { BiComment, BiLike, BiSolidLike } from "react-icons/bi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -66,7 +66,7 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => { };
 
   return (
     <form
@@ -93,11 +93,10 @@ const CommentForm = ({ user, id, replyAt, getComments }) => {
       {errMsg?.message && (
         <span
           role='alert'
-          className={`text-sm ${
-            errMsg?.status === "failed"
+          className={`text-sm ${errMsg?.status === "failed"
               ? "text-[#f64949fe]"
               : "text-[#2ba150fe]"
-          } mt-0.5`}
+            } mt-0.5`}
         >
           {errMsg?.message}
         </span>
@@ -132,7 +131,7 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
     setComments(postComments);
     setLoading(false);
   };
-  const handleLike = async () => {};
+  const handleLike = async () => { };
 
   return (
     <div className='mb-2 bg-primary p-4 rounded-xl'>
@@ -320,9 +319,9 @@ const PostCard = ({ post, user, deletePost, likePost }) => {
                         handleLike={() =>
                           handleLike(
                             "/posts/like-comment/" +
-                              comment?._id +
-                              "/" +
-                              reply?._id
+                            comment?._id +
+                            "/" +
+                            reply?._id
                           )
                         }
                       />
