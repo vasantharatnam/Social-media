@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 // import { v2 as cloudinary } from 'cloudinary';
 import { SetPosts } from "../redux/postSlice";
 
-const API_URL = "http://localhost:8800";
+const API_URL = import.meta.env.VITE_APP_BACKEND_URL;
+// const API_URL = "http://localhost:8800";
 // dotenv.config();
-const CLOUDINARY_NAME = "dzpr1bfbm";
+// const CLOUDINARY_NAME = "dzpr1bfbm";
+const CLOUDINARY_NAME = import.meta.env.VITE_APP_CLOUDINARY_NAME;
 // const CLOUDINARY_KEY = process.env.REACT_APP_CLOUDINARY_URL;
 // const CLOUDINARY_SEC = process.env.REACT_APP_CLOUDINARY_URL;
 
