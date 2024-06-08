@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .hideBtn {
+            display: none;
+        }
+
+        .showBtn {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: rgba(1, 116, 210, 0.971);
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="icon">
+            <span id="statusIcon" class=""></span>
+        </div>
+        <div id="statusMessage" class=""></div>
+        <!-- Replace the localhost:3000 with the deployed URL -->
+        <a href="http://localhost:3000/login" id="btn" class="">Login</a>
+    </div>
+
+    <script>
+        // Get the message parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        const status = urlParams.get('status');
+
+
+        // Get the card, status icon, and status message elements
+        const card = document.querySelector('.card');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Display appropriate content and set background color based on the message parameters
+        if (status === 'success') {
+            statusIcon.innerHTML = '✅';
+            statusMessage.textContent = message;
+            card.classList.add('success');
+            statusIcon.classList.add('success');
+            statusMessage.classList.add('success');
+            btn.classList.add('showBtn');
+        } else if (status === 'error') {
+            statusIcon.innerHTML = '❌';
+            statusMessage.textContent = message;
+            card.classList.add('error');
+            statusIcon.classList.add('error');
+            statusMessage.classList.add('error');
+            btn.classList.add('hideBtn');
+        } else {
+            statusIcon.innerHTML = '❓';
+            statusMessage.textContent = message;
+            card.classList.add('error');
+            statusIcon.classList.add('error');
+            statusMessage.classList.add('error');
+            btn.classList.add('hideBtn');
+        }
+
+
+    </script>
+
+</body>
+
+</html>

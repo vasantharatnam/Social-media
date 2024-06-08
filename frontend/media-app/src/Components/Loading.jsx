@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Loading() {
   return (
     <div className='dot-container'>
@@ -12,4 +10,4 @@ function Loading() {
   )
 }
 
-export default Loading
+export { Loading };

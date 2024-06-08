@@ -2,19 +2,21 @@ import React from 'react'
 import { TbSocial } from "react-icons/tb"
 import TextInput from '../Components/TextInput'
 import { useForm } from 'react-hook-form'
-import ResetPassword from './ResetPassword';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import CustomButton from '../Components/CustomButton';
-import Loading from '../Components/Loading';
-import img from '../assets/img.jpeg';
+import { CustomButton } from '../Components/CustomButton';
+import { Loading } from '../Components/Loading';
+import { BgImage } from '../assets';
 import { BsShare } from 'react-icons/bs'
 import { AiOutlineInteraction } from 'react-icons/ai';
 import { ImConnection } from 'react-icons/im'
+import { apiRequest } from "../apiHelper/index.mjs"
 import { getSignup } from '../apiHelper/getSignup.mjs';
 import 'react-toastify/dist/ReactToastify.css';
+
+// dotenv.config();
 
 function Register() {
 
@@ -24,23 +26,44 @@ function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
+  // const BACKEND_URL = "http://127.0.0.1:8800";BACKEND_URL + 
+
+
   const onSubmit = async (data, event) => {
-    // event.preventDefault();
+    event.preventDefault();
+    setIsSubmitting(true);
     try {
-      const adding = await getSignup(data);
-      const { status, message } = adding;
+      const inside = {
+        url: "/auth/signup",
+        data: data,
+        method: "POST",
+        // token: token
+      };
+      const adding = await apiRequest(inside);
+      // const adding = await getSignup(data);
+      console.log(adding);
+      const { status } = adding;
+      const { message } = adding.message;
       const notify = () => toast(`Status: ${status} Message: ${message}`);
       notify();
+      // setErrMsg(adding);
+
+      console.log(status);
 
       setTimeout(() => {
-        if (status === 200) {
-          navigate('/');
+        if (status === 201) {
+          // navigate('/login');
+          window.location.replace("/login");
         }
       }, 5000);
+      setIsSubmitting(false);
     }
-    catch (e) { console.log(e); }
+    catch (e) {
+      console.log(e);
+      setIsSubmitting(false);
+    }
 
-  }
+  };
 
   return (
     <div className="bg-bgColor w-full h-[100vh] flex items-center justify-center p-6">
@@ -50,7 +73,7 @@ function Register() {
             <div className="p-2 bg-[#065ad8] rounded text-white">
               <TbSocial />
             </div>
-            <span className="text-2xl text-[#065ad8]" font-semibold>OnlineMedia</span>
+            <span className="text-2xl text-[#065ad8] font-semibold" >OnlineMedia</span>
           </div>
           <p className="text-ascent-1 text-base font-semibold">
             Create your account
@@ -145,7 +168,7 @@ function Register() {
         </div>
         <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-blue '>
           <div className='relative w-full flex items-center justify-center'>
-            <img src={img} alt='Bg Image' className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover' />
+            <img src={BgImage} alt='Bg Image' className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover' />
             <div className='absolute flex items-center gap-1 bg-white right-10 top-10 py-2 px-5 rounded-full'>
               <BsShare size={14} />
               <span className='text-xs font-medium'>Share</span>
@@ -175,4 +198,4 @@ function Register() {
   )
 }
 
-export default Register
+export { Register };

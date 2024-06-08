@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import Home from './Pages/Home'
-import Profile from './Pages/Profile'
-import Register from './Pages/Register'
-import Login from './Pages/Login'
-import ResetPassword from './Pages/ResetPassword'
+import { Home } from './Pages/Home'
+import { Profile } from './Pages/Profile'
+import { Register } from './Pages/Register'
+import { Login } from './Pages/Login'
+import { ResetPassword } from './Pages/ResetPassword'
 import { useSelector } from "react-redux";
 import { Outlet } from 'react-router-dom';
 

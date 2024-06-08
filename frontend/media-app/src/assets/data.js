@@ -1,4 +1,4 @@
-export const user = {
+const user = {
   _id: "64df3c064180b81adfe41d4b",
   firstName: "Code",
   lastName: "Wave",
@@ -90,7 +90,7 @@ export const user = {
   token: "hZWFmZmU3NmMiLCJpYXQiOjE2OTIwMzY5",
 };
 
-export const friends = [
+const friends = [
   {
     _id: "64df3aec4180b81adfe41d32",
     firstName: "John",
@@ -115,9 +115,7 @@ export const friends = [
   },
 ];
 
-
-
-export const requests = [
+const requests = [
   {
     _id: "64df3aec4180b81adfe41d32",
     requestFrom: friends[0],
@@ -132,7 +130,7 @@ export const requests = [
   },
 ];
 
-export const suggest = [
+const suggest = [
   {
     _id: "64df3aec4180b81adfe41d32",
     ...friends[0],
@@ -147,7 +145,7 @@ export const suggest = [
   },
 ];
 
-export const posts = [
+const posts = [
   {
     _id: "64e2fe620d7868ecff1a6a86",
     userId: {
@@ -317,7 +315,7 @@ export const posts = [
   },
 ];
 
-export const postComments = [
+const postComments = [
   {
     _id: "64df43e04a4c0d47b536a02a",
     userId: {
@@ -391,4 +389,4 @@ export const postComments = [
   },
 ];
 
-export default { friends, requests, suggest, posts, postComments }
+export { user, friends, requests, suggest, posts, postComments }

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
 import TextInput from '../Components/TextInput';
-import CustomButton from '../Components/CustomButton';
-import Loading from '../Components/Loading';
+import { CustomButton } from '../Components/CustomButton';
+import { Loading } from '../Components/Loading';
+import { apiRequest } from '../apiHelper/index.mjs';
 
 function ResetPassword() {
 
@@ -11,8 +13,27 @@ function ResetPassword() {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
 
-  const onSubmit = async (data) => {
+  const OnSubmit = async (data) => {
+    setIsSubmitting(true);
 
+    try {
+      const result = await apiRequest({
+        url: "/users/request-passwordreset",
+        data: data,
+        method: "POST"
+      });
+      const { status } = result;
+      const { message } = result.message;
+      const notify = () => toast(`Status: ${status} Message: ${message}`);
+      notify();
+      setErrMsg(message);
+
+      setIsSubmitting(false);
+    }
+    catch (e) {
+      setIsSubmitting(false);
+      console.log(e);
+    }
   }
 
   return (
@@ -22,7 +43,7 @@ function ResetPassword() {
         <span className='text-sm text-ascent-2'>
           Enter email address used during registration
         </span>
-        <form onSubmit={handleSubmit(onsubmit)} className='py-4 flex flex-col gap-5'>
+        <form onSubmit={handleSubmit(OnSubmit)} className='py-4 flex flex-col gap-5'>
           <TextInput
             name='email'
             placeholder='email@example.com'
@@ -42,9 +63,10 @@ function ResetPassword() {
             isSubmitting ? <Loading /> : <CustomButton type='submit' containerStyles={`inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline none`} title='Submit' onclick={onclick} />
           }
         </form>
+        <ToastContainer />
       </div>
     </div>
   )
 }
 
-export default ResetPassword
+export { ResetPassword };

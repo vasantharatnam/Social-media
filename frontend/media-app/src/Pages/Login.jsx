@@ -1,31 +1,76 @@
 import React from 'react'
 import { TbSocial } from "react-icons/tb"
+import { ToastContainer, toast } from 'react-toastify';
 import TextInput from '../Components/TextInput'
 import { useForm } from 'react-hook-form'
-import ResetPassword from './ResetPassword';
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import CustomButton from '../Components/CustomButton';
-import Loading from '../Components/Loading';
-import img from '../assets/img.jpeg';
+import { CustomButton } from '../Components/CustomButton';
+import { UserLogin } from "../redux/userSlice";
+import { Loading } from '../Components/Loading';
+import { BgImage } from '../assets';
 import { BsShare } from 'react-icons/bs'
 import { AiOutlineInteraction } from 'react-icons/ai';
 import { ImConnection } from 'react-icons/im'
+import { apiRequest } from '../apiHelper/index.mjs';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Login() {
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
-
-  const onSubmit = async (data) => {
-
-  }
-
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
 
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+
+    try {
+      const result = await apiRequest({
+        url: "/auth/login",
+        data: data,
+        method: "POST"
+      });
+      console.log(result);
+      const { status } = result;
+      let message;
+      if (status === 201) {
+        message = result.message.message;
+      }
+      else {
+        message = result.message;
+      }
+      // const { message } = result;
+      // const message = result.message;
+      const notify = () => toast(`Status: ${status} Message: ${message}`);
+      notify();
+      setErrMsg(message);
+
+      // console.log(status);
+      console.log(result);
+
+      if (status === 201) {
+        // navigate('/login');
+        let resul = result.message
+        const newData = { token: resul?.token, ...resul?.user };
+        console.log(newData, "token");
+        dispatch(UserLogin(newData));
+      }
+
+      setTimeout(() => {
+        if (status === 201)
+          window.location.replace("/");
+      }, 5000);
+      setIsSubmitting(false);
+    }
+    catch (e) {
+      setIsSubmitting(false);
+      // setErrMsg(e.message);
+      console.log(e);
+    }
+  }
 
 
   return (
@@ -36,7 +81,7 @@ function Login() {
             <div className="p-2 bg-[#065ad8] rounded text-white">
               <TbSocial />
             </div>
-            <span className="text-2xl text-[#065ad8]" font-semibold>OnlineMedia</span>
+            <span className="text-2xl text-[#065ad8] font-semibold" >OnlineMedia</span>
           </div>
           <p className="text-ascent-1 text-base font-semibold">
             Log in to your account
@@ -78,6 +123,7 @@ function Login() {
               isSubmitting ? <Loading /> : <CustomButton type='submit' containerStyles={`inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline none`} title='login' onclick={onclick} />
             }
           </form>
+          <ToastContainer />
 
           <p className='text-ascent-2 text-sm text-center'>
             Don't have an account?
@@ -86,7 +132,7 @@ function Login() {
         </div>
         <div className='hidden w-1/2 h-full lg:flex flex-col items-center justify-center bg-blue '>
           <div className='relative w-full flex items-center justify-center'>
-            <img src={img} alt='Bg Image' className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover' />
+            <img src={BgImage} alt='Bg Image' className='w-48 2xl:w-64 h-48 2xl:h-64 rounded-full object-cover' />
             <div className='absolute flex items-center gap-1 bg-white right-10 top-10 py-2 px-5 rounded-full'>
               <BsShare size={14} />
               <span className='text-xs font-medium'>Share</span>
@@ -116,4 +162,4 @@ function Login() {
   )
 }
 
-export default Login
+export { Login };

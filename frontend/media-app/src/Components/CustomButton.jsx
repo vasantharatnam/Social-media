@@ -9,4 +9,4 @@ function CustomButton({ title, containerStyles, iconRight, type, onclick }) {
   )
 }
 
-export default CustomButton
+export { CustomButton };

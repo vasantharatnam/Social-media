@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import TextInput from "./TextInput";
-import Loading from "./Loading";
-import CustomButton from "./CustomButton";
-import { UpdateProfile } from "../redux/userSlice";
+import { Loading } from "./Loading";
+import { CustomButton } from "./CustomButton";
+import { UpdateProfile, UserLogin } from "../redux/userSlice";
+import { apiRequest, handleFileUpload } from "../apiHelper/index.mjs";
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.user);
@@ -23,7 +26,45 @@ const EditProfile = () => {
     defaultValues: { ...user },
   });
 
-  const onSubmit = async (data) => { };
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    setErrMsg("");
+
+    try {
+      const uri = picture && (await handleFileUpload(picture));
+      const { Name, location, profession } = data;
+      const result = await apiRequest({
+        url: "/users/update-user",
+        data: {
+          Name,
+          location,
+          profession,
+          profileUrl: uri ? uri : user?.profileUrl
+        },
+        method: "PUT",
+        token: user?.token
+      });
+      const { status } = result;
+      const { message } = result.message;
+      const notify = () => toast(`Status: ${status} Message: ${message}`);
+      notify();
+      setErrMsg(message);
+      if (status === 200) {
+        const newUser = { token: result?.message?.token, ...result?.message?.user };
+        dispatch(UserLogin(newUser));
+
+        setTimeout(() => {
+          dispatch(UpdateProfile(false));
+        }, 3000);
+      }
+      setIsSubmitting(false);
+    }
+    catch (err) {
+      setIsSubmitting(false);
+      console.log(err);
+    }
+
+  };
 
   const handleClose = () => {
     dispatch(UpdateProfile(false));
@@ -31,6 +72,7 @@ const EditProfile = () => {
   const handleSelect = (e) => {
     setPicture(e.target.files[0]);
   };
+
 
   return (
     <>
@@ -64,26 +106,16 @@ const EditProfile = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <TextInput
-                name='firstName'
-                label='First Name'
-                placeholder='First Name'
+                name='Name'
+                label='Name'
+                placeholder='Name'
                 type='text'
+                defaultValue={user?.name}
                 styles='w-full'
-                register={register("firstName", {
-                  required: "First Name is required!",
+                register={register("Name", {
+                  required: "Name is required!",
                 })}
-                error={errors.firstName ? errors.firstName?.message : ""}
-              />
-
-              <TextInput
-                label='Last Name'
-                placeholder='Last Name'
-                type='lastName'
-                styles='w-full'
-                register={register("lastName", {
-                  required: "Last Name do no match",
-                })}
-                error={errors.lastName ? errors.lastName?.message : ""}
+                error={errors.Name ? errors.Name?.message : ""}
               />
 
               <TextInput
@@ -91,6 +123,7 @@ const EditProfile = () => {
                 label='Profession'
                 placeholder='Profession'
                 type='text'
+                defaultValue={user?.profession}
                 styles='w-full'
                 register={register("profession", {
                   required: "Profession is required!",
@@ -102,6 +135,7 @@ const EditProfile = () => {
                 label='Location'
                 placeholder='Location'
                 type='text'
+                defaultValue={user?.location}
                 styles='w-full'
                 register={register("location", {
                   required: "Location do no match",
@@ -126,8 +160,8 @@ const EditProfile = () => {
                 <span
                   role='alert'
                   className={`text-sm ${errMsg?.status === "failed"
-                      ? "text-[#f64949fe]"
-                      : "text-[#2ba150fe]"
+                    ? "text-[#f64949fe]"
+                    : "text-[#2ba150fe]"
                     } mt-0.5`}
                 >
                   {errMsg?.message}
@@ -146,6 +180,7 @@ const EditProfile = () => {
                 )}
               </div>
             </form>
+            <ToastContainer />
           </div>
         </div>
       </div>
@@ -153,4 +188,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export { EditProfile };
