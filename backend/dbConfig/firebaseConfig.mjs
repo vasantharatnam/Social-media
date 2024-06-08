@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
 import dotenv from "dotenv";
 import admin from "firebase-admin";
-import serviceAccount from "./service.json" assert { type: "json" };
+import serviceAccount from "../service.json" assert { type: "json" };
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
 
 dotenv.config();
 // dotenv.config({ path: import.meta.url + "../.env" });
 // Web app's Firebase configuration
+// const SERVICE_ACCOUNT = JSON.parse(JSON.stringify(process.env.SERVICE_ACCOUNT));
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -20,6 +21,7 @@ const dbConfig = initializeApp(firebaseConfig);
 const dbAuth = getAuth();
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
+    // credential: admin.credential.cert(SERVICE_ACCOUNT)
 });
 // const dbStore = admin.firestore();
 const dbStore = getFirestore(dbConfig);
