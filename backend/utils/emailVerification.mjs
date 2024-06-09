@@ -10,18 +10,26 @@ dotenv.config();
 const { AUTH_EMAIL, AUTH_PW, APP_URL } = process.env;
 
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.office365.com", // hostname
-    // host: "smtp-mail.outlook.com", // hostname
-    secureConnection: true, // TLS requires secureConnection to be false
-    port: 587,
+// let transporter = nodemailer.createTransport({
+//     host: "smtp.office365.com", // hostname
+//     // host: "smtp-mail.outlook.com", // hostname
+//     secureConnection: true, // TLS requires secureConnection to be false
+//     port: 587,
+//     auth: {
+//         user: AUTH_EMAIL,
+//         pass: AUTH_PW,
+//     },
+//     tls: {
+//         ciphers: 'SSLv3'
+//     }
+// });
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
     auth: {
         user: AUTH_EMAIL,
         pass: AUTH_PW,
     },
-    tls: {
-        ciphers: 'SSLv3'
-    }
 });
 
 const sendVerificationMail = async (user, res) => {
