@@ -11,7 +11,7 @@ const { AUTH_EMAIL, AUTH_PW, APP_URL } = process.env;
 
 
 let transporter = nodemailer.createTransport({
-    host: "	smtp.office365.com", // hostname
+    host: "smtp.office365.com", // hostname
     // host: "smtp-mail.outlook.com", // hostname
     secureConnection: true, // TLS requires secureConnection to be false
     port: 587,
