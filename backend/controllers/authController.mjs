@@ -20,6 +20,20 @@ const userRegisterAuth = async (req, res) => {
             res.status(401).send({ message: "Please fill all the fields" });
             return;
         }
+
+        const q = query(collection(dbStore, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        let ok = 0;
+        querySnapshot.forEach((doc) => {
+            ok = 1;
+        });
+        if (ok) {
+            res.status(401).send({
+                success: "FAILED",
+                message: "Email Already in Use"
+            });
+            return;
+        }
         const hashPassworder = await hashPassword(password);
         ///////////////////
         // const refi = doc(dbStore, "users", "3QmPHlbHOmGvldcyAtHs");
