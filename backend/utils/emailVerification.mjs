@@ -50,7 +50,7 @@ const sendVerificationMail = async (user, res) => {
     });
 
     const token = _id + uuidv4();
-    const link = APP_URL + "users/verify/" + _id + "/" + token;
+    const link = APP_URL + "/users/verify/" + _id + "/" + token;
     //  Mail Options
     const mailOptions = {
         from: AUTH_EMAIL,
@@ -103,7 +103,7 @@ const resetPasswordLink = async (user, res) => {
     const { _id, email } = user;
 
     const token = _id + uuidv4();
-    const link = APP_URL + "users/reset-password/" + _id + "/" + token;
+    const link = APP_URL + "/users/reset-password/" + _id + "/" + token;
 
     const mailOptions = {
         from: AUTH_EMAIL,
