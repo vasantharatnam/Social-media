@@ -4,7 +4,7 @@ FrontEnd = npm run dev
 BackEnd = npm run dev
 
 
-site_url : https://main--nano-media.netlify.app/login
+site_url : https://nano-media.netlify.app/
 
  # Front END
 the above project made with tech stack ReactJS , for FrontEnd  we build the structure and layout with tailwind css 
