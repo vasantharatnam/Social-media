@@ -16,4 +16,7 @@ npx tailwindcss init
 
 npm install @reduxjs/toolkit react-redux
 
+# set up
+
+1
 
