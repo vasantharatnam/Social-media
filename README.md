@@ -16,6 +16,10 @@ npx tailwindcss init
 
 npm install @reduxjs/toolkit react-redux
 
+ # Back END
+   
+backend was developed using Firebase  to include interesting features like notifications 
+
 # set up
 
 1
