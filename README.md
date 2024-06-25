@@ -6,7 +6,7 @@ BackEnd = npm run dev
 
 site_url : https://nano-media.netlify.app/
 
- # Front END
+ # Frontend
 the above project made with tech stack ReactJS , for FrontEnd  we build the structure and layout with tailwind css 
 
 npm install -D tailwindcss
@@ -16,11 +16,11 @@ npx tailwindcss init
 
 npm install @reduxjs/toolkit react-redux
 
- # Back END
+ # Backend
    
 backend was developed using Firebase  to include interesting features like notifications 
 
-# set up
+# Setup
 
 1
 
