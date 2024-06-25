@@ -43,7 +43,14 @@ function Register() {
       // const adding = await getSignup(data);
       console.log(adding);
       const { status } = adding;
-      const { message } = adding.message;
+      let message;
+      if (status === 201) {
+        message = adding.message.message
+      }
+      else {
+        message = adding.message
+      }
+      // const { message } = adding.message;
       const notify = () => toast(`Status: ${status} Message: ${message}`);
       notify();
       // setErrMsg(adding);
@@ -53,7 +60,7 @@ function Register() {
       setTimeout(() => {
         if (status === 201) {
           // navigate('/login');
-          window.location.replace("/login");
+          window.location.replace("/");
         }
       }, 5000);
       setIsSubmitting(false);
